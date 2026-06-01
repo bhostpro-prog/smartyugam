@@ -497,6 +497,7 @@ const SESSIONS = [
 // ══════════════════════════════════════════════════════════
 let MODE = null;
 let myName = null;
+let activeQuizSlide = null; // currently active quiz slide reference
 let curSess = 0, curSlide = 0;
 let rpInterval = null;
 let quizTimerInterval = null;
@@ -642,26 +643,7 @@ function renderPhoneActivity(act) {
       <div class="ph-opts">${act.opts.map((o, i) => `<button class="ph-opt" onclick="phSubmitPoll('${act.id}',${i},this)">${o}</button>`).join('')}</div>
     </div>`;
   } else if (act.type === 'quiz') {
-    // Build a local quiz object from payload data
-    const quizAct = {
-      id: act.id,
-      timer: act.timer || 20,
-      qs: act.currentOpts ? [{ q: act.currentQ, opts: act.currentOpts, ans: -1 }] : [],
-      qIdx: act.qIdx || 0,
-      totalQs: act.totalQs || 1,
-      timerLeft: act.timerLeft
-    };
-    // Try to get full quiz data from local SESSIONS
-    if (act.sessIdx !== undefined && act.actIdx !== undefined) {
-      const localSess = SESSIONS[act.sessIdx];
-      if (localSess) {
-        const localSlide = localSess[act.actIdx];
-        if (localSlide && localSlide.actType === 'quiz') {
-          quizAct.qs = localSlide.qs;
-        }
-      }
-    }
-    renderPhoneQuiz(quizAct, act.qIdx || 0);
+    phoneHandleQuiz(act);
   } else if (act.type === 'open') {
     wrap.innerHTML = `<div class="ph-card">
       <div class="ph-lbl">${act.badge || 'Open Response'}</div>
@@ -683,21 +665,65 @@ function renderPhoneActivity(act) {
   }
 }
 
+function toArray(val) {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  // Firebase returns arrays as objects with numeric string keys
+  return Object.keys(val)
+    .sort((a, b) => parseInt(a) - parseInt(b))
+    .map(k => {
+      const item = val[k];
+      if (item && item.opts && !Array.isArray(item.opts)) {
+        item.opts = toArray(item.opts);
+      }
+      return item;
+    });
+}
+
+function phoneHandleQuiz(act) {
+  phShow('ph-act');
+  const wrap = document.getElementById('ph-act');
+  // If qs not yet in payload, show loading and retry from Firebase directly
+  if (!act.qs) {
+    wrap.innerHTML = '<div class="ph-card"><div class="ph-lbl" style="color:var(--gold)">⏳ Loading quiz...</div><div class="ph-q">Please wait a moment.</div></div>';
+    // Pull directly from Firebase
+    db.ref('activeActivity').once('value', snap => {
+      const fresh = snap.val();
+      if (fresh && fresh.qs) phoneHandleQuiz(fresh);
+      else setTimeout(() => db.ref('activeActivity').once('value', s2 => { const f2 = s2.val(); if (f2) phoneHandleQuiz(f2); }), 1500);
+    });
+    return;
+  }
+  const qsArray = toArray(act.qs);
+  const qIdx = act.qIdx || 0;
+  const quizAct = {
+    id: act.id,
+    timer: act.timer || 20,
+    qs: qsArray,
+    qIdx: qIdx,
+    totalQs: act.totalQs || qsArray.length || 1,
+    timerLeft: act.timerLeft !== undefined ? act.timerLeft : (act.timer || 20)
+  };
+  renderPhoneQuiz(quizAct, qIdx);
+}
+
 function renderPhoneQuiz(act, qIdx) {
   qIdx = qIdx !== undefined ? qIdx : (act.qIdx || 0);
   const wrap = document.getElementById('ph-act');
   if (!act.qs || !act.qs[qIdx]) {
-    wrap.innerHTML = '<div class="ph-card"><div class="ph-lbl">Quiz loading...</div><div class="ph-q">Please wait a moment.</div></div>';
+    wrap.innerHTML = '<div class="ph-card"><div class="ph-lbl" style="color:var(--red)">Quiz not loaded</div><div class="ph-q">Please wait — host is starting the question.</div></div>';
     return;
   }
   const qdata = act.qs[qIdx];
-  phoneLocalTimer = act.timerLeft !== undefined ? act.timerLeft : act.timer;
-  const tot = act.timer;
+  // Ensure opts is an array
+  const opts = Array.isArray(qdata.opts) ? qdata.opts : Object.values(qdata.opts || {});
+  phoneLocalTimer = act.timerLeft !== undefined ? act.timerLeft : (act.timer || 20);
+  const tot = act.timer || 20;
   wrap.innerHTML = `<div class="ph-card">
     <div class="ph-lbl">Quiz · Q${qIdx+1} of ${act.qs.length}</div>
     <div class="ph-q">${qdata.q}</div>
     <div class="ph-timer-w"><div class="ph-timer-f" id="ph-tf" style="width:${(phoneLocalTimer/tot)*100}%"></div></div>
-    <div class="ph-opts">${qdata.opts.map((o, i) => `<button class="ph-opt" onclick="phSubmitQuiz('${act.id}',${i},${qIdx},this)">${o}</button>`).join('')}</div>
+    <div class="ph-opts">${opts.map((o, i) => `<button class="ph-opt" onclick="phSubmitQuiz('${act.id}',${i},${qIdx},this)">${o}</button>`).join('')}</div>
   </div>`;
   clearInterval(phoneTimerInterval);
   phoneTimerInterval = setInterval(() => {
@@ -868,10 +894,7 @@ function pushActivity(slide) {
     payload.qIdx = qIdx;
     payload.timerLeft = slide.timer || 20;
     payload.totalQs = slide.qs.length;
-    // Send current question data so phone can render it
-    const qdata = slide.qs[qIdx];
-    payload.currentQ = qdata.q;
-    payload.currentOpts = qdata.opts;
+    payload.qs = slide.qs; // send ALL questions — only ~1KB, Firebase handles it fine
   }
   if (slide.actType === 'rating') payload.aspects = slide.aspects;
   db.ref('activeActivity').set(payload);
@@ -949,6 +972,7 @@ function updateSubmittedCount(snap) {
 
 // ── PROJECTOR QUIZ ──
 function startProjQuiz(slide) {
+  activeQuizSlide = slide; // store reference for reveal/next buttons
   if (!projQuizState[slide.id]) projQuizState[slide.id] = { qIdx: 0 };
   const state = projQuizState[slide.id];
   const qIdx = state.qIdx;
@@ -969,6 +993,12 @@ function startProjQuiz(slide) {
   }, 1000);
   // Live answer count
   listenDB(db.ref('actAnswers/' + slide.id), snap => updateSubmittedCount(snap));
+}
+
+function projRevealCurrent() {
+  if (!activeQuizSlide) return;
+  const state = projQuizState[activeQuizSlide.id] || { qIdx: 0 };
+  projRevealAnswer(activeQuizSlide, state.qIdx);
 }
 
 function projRevealAnswer(slide, qIdx) {
@@ -1015,12 +1045,10 @@ function projNextQuestion(slide) {
   if (qopts) qopts.innerHTML = qdata.opts.map((o, i) => '<div class="quiz-proj-opt" id="qpo'+i+'">'+o+'</div>').join('');
   db.ref('quizReveal').remove();
   db.ref('actAnswers/' + slide.id).remove();
-  // Push full updated question to phones
+  // Push updated state to phones — qs already in Firebase from initial push
   db.ref('activeActivity').update({
     qIdx: state.qIdx,
     timerLeft: slide.timer || 20,
-    currentQ: qdata.q,
-    currentOpts: qdata.opts,
     totalQs: slide.qs.length
   });
   const revBtn = document.getElementById('proj-rev-btn');
@@ -1108,16 +1136,18 @@ function buildActivityHTML(slide) {
     </div>`).join('')}</div>
     <div style="font-size:12px;color:var(--muted);margin-top:8px" id="proj-sub-ct">0 submitted</div>`;
   } else if (actType === 'quiz') {
-    const state = projQuizState[slide.id] || { qIdx: 0 };
+    if (!projQuizState[slide.id]) projQuizState[slide.id] = { qIdx: 0 };
+    const state = projQuizState[slide.id];
     const qIdx = state.qIdx;
     const qdata = slide.qs[qIdx];
+    const sid = slide.id;
     inner = `<div class="quiz-proj-q" id="proj-qtxt">${qdata.q}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="proj-qprog">Question ${qIdx+1} of ${slide.qs.length}</div>
-      <div class="quiz-proj-opts" id="proj-qopts">${qdata.opts.map((o,i)=>`<div class="quiz-proj-opt" id="qpo${i}">${o}</div>`).join('')}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px" id="proj-qprog">Question ${qIdx+1} of ${slide.qs.length}</div>
+      <div class="quiz-proj-opts" id="proj-qopts">${qdata.opts.map((o,i)=>'<div class="quiz-proj-opt" id="qpo'+i+'">'+o+'</div>').join('')}</div>
       <div class="proj-timer" id="proj-qtimer">${slide.timer||20}</div>
       <div class="proj-ans-ct" id="proj-sub-ct">0 answered</div>
-      <button class="proj-reveal-btn" id="proj-rev-btn" onclick="projRevealAnswer(SESSIONS[${curSess}][${curSlide}],${projQuizState[slide.id]?.qIdx||0})">⏱ Reveal Answer & Score</button>
-      <button class="proj-next-btn" id="proj-qnext-btn" style="display:none" onclick="projNextQuestion(SESSIONS[${curSess}][${curSlide}])">Next Question →</button>`;
+      <button class="proj-reveal-btn" id="proj-rev-btn" onclick="projRevealCurrent()">⏱ Reveal Answer & Score</button>
+      <button class="proj-next-btn" id="proj-qnext-btn" style="display:none" onclick="projNextQuestion(activeQuizSlide)">Next Question →</button>`;
   } else if (actType === 'open') {
     inner = `<div class="open-wall" id="proj-open-${slide.id}"><div style="color:var(--muted);font-size:13px">Waiting for responses...</div></div>
       <div style="font-size:12px;color:var(--muted);margin-top:8px" id="proj-sub-ct">0 submitted</div>`;
