@@ -28,8 +28,18 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .sess-pill.d2.active{background:var(--green);border-color:var(--green)}
 .sess-pill.demo.active{background:var(--gold);border-color:var(--gold);color:#000}
 #stage{flex:1;position:relative;overflow:hidden}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px 34px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateX(30px)}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px 40px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateX(30px);overflow:hidden}
 .slide.active{opacity:1;pointer-events:all;transform:none}
+.slide-content,.slide-act{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.cols2{flex:1;min-height:0}
+.grid4{flex:1;min-height:0}
+.compare{flex:1;min-height:0}
+.steps{flex:1;min-height:0;overflow:hidden}
+.poll-bars{flex:1;min-height:0}
+.wc-cloud{flex:1;min-height:0}
+.open-wall{flex:1;min-height:0}
+.rating-proj{flex:1;min-height:0}
+.lb-list{flex:1;min-height:0;overflow-y:auto}
 #bot-nav{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border-top:1px solid var(--border);padding:7px 14px;flex-shrink:0}
 .nav-btn{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:var(--ff-h);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
 .nav-btn:hover{background:var(--s3)}
@@ -51,66 +61,66 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .slide-section{background:linear-gradient(135deg,var(--s2),var(--s1));justify-content:center;position:relative}
 .sect-num{font-family:var(--ff-h);font-size:clamp(60px,12vw,110px);font-weight:800;line-height:1;opacity:.07;position:absolute;right:30px;top:50%;transform:translateY(-50%)}
 .sect-eye{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
-.sect-title{font-family:var(--ff-h);font-size:clamp(20px,4vw,38px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:8px}
-.sect-sub{font-size:13px;color:var(--muted);line-height:1.6}
-.dur-pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;margin-top:12px;background:var(--ag);color:var(--accent);border:1px solid rgba(108,99,255,.3)}
+.sect-title{font-family:var(--ff-h);font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:10px}
+.sect-sub{font-size:16px;color:var(--muted);line-height:1.6}
+.dur-pill{display:inline-block;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;margin-top:16px;background:var(--ag);color:var(--accent);border:1px solid rgba(108,99,255,.3)}
 
-.slide-content h2{font-family:var(--ff-h);font-size:clamp(16px,2.8vw,26px);font-weight:800;letter-spacing:-.5px;margin-bottom:16px;line-height:1.2}
+.slide-content{flex:1;display:flex;flex-direction:column;overflow:hidden}.slide-content h2{font-family:var(--ff-h);font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-.5px;margin-bottom:14px;line-height:1.15}
 .slide-content h2 .hl{color:var(--accent)}
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.col-box{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px}
-.col-box h3{font-family:var(--ff-h);font-size:12px;font-weight:700;margin-bottom:8px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:0;flex:1;min-height:0}
+.col-box{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:18px;overflow:auto}
+.col-box h3{font-family:var(--ff-h);font-size:15px;font-weight:700;margin-bottom:10px}
 .col-box ul{list-style:none;display:flex;flex-direction:column;gap:5px}
-.col-box ul li{font-size:11px;color:var(--muted);padding-left:12px;position:relative;line-height:1.5}
+.col-box ul li{font-size:13px;color:var(--muted);padding-left:14px;position:relative;line-height:1.6}
 .col-box ul li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
 .col-box ul li strong{color:var(--text)}
-.bquote{background:var(--s1);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:13px 16px;font-family:var(--ff-h);font-size:clamp(12px,1.8vw,15px);font-weight:600;line-height:1.5;font-style:italic;margin:10px 0}
-.grid4{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
-.g4box{border-radius:10px;padding:12px}
-.g4box h3{font-size:11px;font-weight:700;margin-bottom:5px}
-.g4box p{font-size:11px;line-height:1.5;opacity:.85}
-.stats{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-.stat{flex:1;min-width:100px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.stat-n{font-family:var(--ff-h);font-size:26px;font-weight:800;color:var(--accent)}
-.stat-l{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
-.steps{display:flex;flex-direction:column;gap:7px;margin-top:10px}
-.step{display:flex;align-items:flex-start;gap:10px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.step-n{font-family:var(--ff-h);font-size:18px;font-weight:800;color:var(--accent);flex-shrink:0;width:22px;line-height:1}
-.step-body h4{font-size:12px;font-weight:600;margin-bottom:2px}
-.step-body p{font-size:11px;color:var(--muted);line-height:1.5}
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.cbox{border-radius:10px;padding:12px}
-.cbox h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.bquote{background:var(--s1);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px;font-family:var(--ff-h);font-size:clamp(15px,1.8vw,18px);font-weight:600;line-height:1.6;font-style:italic;margin:10px 0}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;flex:1;min-height:0}
+.g4box{border-radius:12px;padding:16px;overflow:auto}
+.g4box h3{font-size:14px;font-weight:700;margin-bottom:7px}
+.g4box p{font-size:13px;line-height:1.6;opacity:.85}
+.stats{display:flex;gap:12px;margin-top:10px;flex-wrap:nowrap}
+.stat{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.stat-n{font-family:var(--ff-h);font-size:36px;font-weight:800;color:var(--accent)}
+.stat-l{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.steps{display:flex;flex-direction:column;gap:8px;margin-top:10px;flex:1;min-height:0;overflow:hidden}
+.step{display:flex;align-items:flex-start;gap:12px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px 16px;flex:1;min-height:0}
+.step-n{font-family:var(--ff-h);font-size:22px;font-weight:800;color:var(--accent);flex-shrink:0;width:26px;line-height:1}
+.step-body h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.step-body p{font-size:13px;color:var(--muted);line-height:1.6}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;flex:1;min-height:0}
+.cbox{border-radius:12px;padding:16px;overflow:auto}
+.cbox h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
 .cbox ul{list-style:none;display:flex;flex-direction:column;gap:5px}
-.cbox ul li{font-size:11px;color:var(--muted);padding-left:12px;position:relative;line-height:1.4}
+.cbox ul li{font-size:13px;color:var(--muted);padding-left:14px;position:relative;line-height:1.5}
 .cbox ul li::before{content:'·';position:absolute;left:2px;font-weight:700}
 
 /* ── ACTIVITY SLIDES (projector) ── */
-.slide-act h2{font-family:var(--ff-h);font-size:clamp(16px,2.5vw,24px);font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.slide-act h2{font-family:var(--ff-h);font-size:clamp(20px,2.8vw,30px);font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
 .act-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
-.act-q{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.act-q{font-size:15px;color:var(--muted);margin-bottom:12px;line-height:1.6}
 
 /* Word cloud projector */
-.wc-cloud{background:var(--s1);border:1px solid var(--border);border-radius:14px;min-height:130px;padding:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;flex:1}
-.wc-word{padding:5px 13px;border-radius:20px;font-family:var(--ff-h);font-weight:700;animation:pop .4s ease}
+.wc-cloud{background:var(--s1);border:1px solid var(--border);border-radius:14px;min-height:0;padding:20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;flex:1;overflow:auto}
+.wc-word{padding:7px 16px;border-radius:20px;font-family:var(--ff-h);font-weight:700;animation:pop .4s ease}
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* Poll projector */
 .poll-bars{display:flex;flex-direction:column;gap:9px;flex:1}
-.pbar-row{display:flex;align-items:center;gap:10px}
-.pbar-lbl{font-size:12px;color:var(--muted);width:160px;flex-shrink:0;line-height:1.3}
-.pbar-track{flex:1;height:32px;background:var(--s2);border-radius:7px;overflow:hidden}
+.pbar-row{display:flex;align-items:center;gap:10px;flex:1}
+.pbar-lbl{font-size:14px;color:var(--muted);width:180px;flex-shrink:0;line-height:1.4}
+.pbar-track{flex:1;height:44px;background:var(--s2);border-radius:7px;overflow:hidden}
 .pbar-fill{height:100%;border-radius:7px;display:flex;align-items:center;padding:0 10px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 .pbar-fill span{font-size:12px;font-weight:600;color:#fff}
-.pbar-n{font-family:var(--ff-h);font-size:14px;font-weight:700;min-width:24px;text-align:right}
+.pbar-n{font-family:var(--ff-h);font-size:18px;font-weight:700;min-width:28px;text-align:right}
 
 /* Quiz projector */
-.quiz-proj-q{font-family:var(--ff-h);font-size:clamp(14px,2.2vw,20px);font-weight:700;line-height:1.4;margin-bottom:12px}
+.quiz-proj-q{font-family:var(--ff-h);font-size:clamp(18px,2.5vw,26px);font-weight:700;line-height:1.4;margin-bottom:12px}
 .quiz-proj-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.quiz-proj-opt{padding:12px;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-weight:500;text-align:center;line-height:1.35;transition:all .3s}
+.quiz-proj-opt{padding:14px 12px;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-weight:500;text-align:center;line-height:1.35;transition:all .3s}
 .quiz-proj-opt.correct{border-color:var(--green);background:rgba(46,204,138,.15);color:var(--green)}
 .quiz-proj-opt.voted{border-color:var(--accent);background:var(--ag)}
-.proj-timer{font-family:var(--ff-h);font-size:48px;font-weight:800;text-align:center;color:var(--gold);margin:8px 0}
+.proj-timer{font-family:var(--ff-h);font-size:64px;font-weight:800;text-align:center;color:var(--gold);margin:6px 0}
 .proj-timer.urg{color:var(--red)}
 .proj-ans-ct{font-size:12px;color:var(--muted);text-align:center}
 .proj-reveal-btn{width:100%;padding:11px;background:var(--green);border:none;border-radius:10px;color:#fff;font-family:var(--ff-h);font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
@@ -118,15 +128,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 /* Open responses projector */
 .open-wall{display:flex;flex-wrap:wrap;gap:8px;flex:1;align-content:flex-start;overflow-y:auto}
-.open-card{background:var(--s2);border-radius:10px;padding:10px 13px;border-left:3px solid var(--accent);font-size:12px;line-height:1.5;animation:pop .4s ease;max-width:280px}
+.open-card{background:var(--s2);border-radius:10px;padding:12px 15px;border-left:3px solid var(--accent);font-size:14px;line-height:1.6;animation:pop .4s ease;max-width:320px}
 .open-by{font-size:10px;color:var(--muted);margin-bottom:3px}
 
 /* Rating projector */
 .rating-proj{display:flex;flex-direction:column;gap:9px;flex:1}
-.rproj-row{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:10px}
-.rproj-lbl{font-size:12px;font-weight:500;flex:1}
-.rproj-stars{font-size:18px;letter-spacing:2px;color:var(--gold)}
-.rproj-avg{font-family:var(--ff-h);font-size:14px;font-weight:700;color:var(--gold);min-width:50px;text-align:right}
+.rproj-row{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1}
+.rproj-lbl{font-size:15px;font-weight:500;flex:1}
+.rproj-stars{font-size:24px;letter-spacing:3px;color:var(--gold)}
+.rproj-avg{font-family:var(--ff-h);font-size:18px;font-weight:700;color:var(--gold);min-width:60px;text-align:right}
 .rproj-ct{font-size:10px;color:var(--muted);min-width:40px;text-align:right}
 
 /* Leaderboard */
@@ -136,15 +146,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .lb-row.g2{border-color:#b0b0b0}
 .lb-row.g3{border-color:#cd7f32}
 .lb-rank{font-family:var(--ff-h);font-size:20px;font-weight:800;width:28px;text-align:center;flex-shrink:0}
-.lb-name{flex:1;font-size:13px;font-weight:500}
-.lb-pts{font-family:var(--ff-h);font-size:18px;font-weight:800;color:var(--accent)}
+.lb-name{flex:1;font-size:16px;font-weight:500}
+.lb-pts{font-family:var(--ff-h);font-size:22px;font-weight:800;color:var(--accent)}
 
 /* Role play timer */
-.rp-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.rp-card{border-radius:12px;padding:14px}
-.rp-card h3{font-family:var(--ff-h);font-size:13px;font-weight:700;margin-bottom:8px}
+.rp-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px;flex:1;min-height:0}
+.rp-card{border-radius:12px;padding:18px;overflow:auto}
+.rp-card h3{font-family:var(--ff-h);font-size:16px;font-weight:700;margin-bottom:10px}
 .rp-card ul{list-style:none;display:flex;flex-direction:column;gap:5px}
-.rp-card ul li{font-size:11px;color:var(--muted);padding-left:12px;position:relative;line-height:1.5}
+.rp-card ul li{font-size:14px;color:var(--muted);padding-left:14px;position:relative;line-height:1.6}
 .rp-card ul li::before{content:'•';position:absolute;left:2px}
 .timer-big{font-family:var(--ff-h);font-size:64px;font-weight:800;text-align:center;line-height:1;margin:8px 0}
 .timer-ctrl{display:flex;gap:8px;justify-content:center;margin-top:10px}
@@ -533,13 +543,31 @@ function startMode(mode) {
       if (el2) el2.textContent = n;
     });
     // Watch active activity
+    let lastActId = null;
+    let lastQIdx = -1;
     listenDB(db.ref('activeActivity'), snap => {
       const act = snap.val();
       if (!act || !myName) return;
-      // Update session label
       const sl = document.getElementById('ph-sess-label');
       if (sl) sl.textContent = act.sessLabel || 'Workshop';
-      // Check if we already answered
+      // For quiz: re-render when question index changes
+      if (act.type === 'quiz') {
+        const newQIdx = act.qIdx || 0;
+        if (act.id !== lastActId || newQIdx !== lastQIdx) {
+          lastActId = act.id;
+          lastQIdx = newQIdx;
+          phoneHasAnswered = false;
+          db.ref('actAnswers/' + act.id + '/' + safeKey(myName)).once('value', asnap => {
+            if (asnap.val() && asnap.val().qIdx === newQIdx) { phShow('ph-sub'); return; }
+            renderPhoneActivity(act);
+          });
+        }
+        return;
+      }
+      // For other activities: only render if new activity
+      if (act.id === lastActId) return;
+      lastActId = act.id;
+      lastQIdx = -1;
       db.ref('actAnswers/' + act.id + '/' + safeKey(myName)).once('value', asnap => {
         if (asnap.val()) { phShow('ph-sub'); return; }
         phoneHasAnswered = false;
@@ -614,7 +642,26 @@ function renderPhoneActivity(act) {
       <div class="ph-opts">${act.opts.map((o, i) => `<button class="ph-opt" onclick="phSubmitPoll('${act.id}',${i},this)">${o}</button>`).join('')}</div>
     </div>`;
   } else if (act.type === 'quiz') {
-    renderPhoneQuiz(act);
+    // Build a local quiz object from payload data
+    const quizAct = {
+      id: act.id,
+      timer: act.timer || 20,
+      qs: act.currentOpts ? [{ q: act.currentQ, opts: act.currentOpts, ans: -1 }] : [],
+      qIdx: act.qIdx || 0,
+      totalQs: act.totalQs || 1,
+      timerLeft: act.timerLeft
+    };
+    // Try to get full quiz data from local SESSIONS
+    if (act.sessIdx !== undefined && act.actIdx !== undefined) {
+      const localSess = SESSIONS[act.sessIdx];
+      if (localSess) {
+        const localSlide = localSess[act.actIdx];
+        if (localSlide && localSlide.actType === 'quiz') {
+          quizAct.qs = localSlide.qs;
+        }
+      }
+    }
+    renderPhoneQuiz(quizAct, act.qIdx || 0);
   } else if (act.type === 'open') {
     wrap.innerHTML = `<div class="ph-card">
       <div class="ph-lbl">${act.badge || 'Open Response'}</div>
@@ -636,9 +683,13 @@ function renderPhoneActivity(act) {
   }
 }
 
-function renderPhoneQuiz(act) {
+function renderPhoneQuiz(act, qIdx) {
+  qIdx = qIdx !== undefined ? qIdx : (act.qIdx || 0);
   const wrap = document.getElementById('ph-act');
-  const qIdx = act.qIdx || 0;
+  if (!act.qs || !act.qs[qIdx]) {
+    wrap.innerHTML = '<div class="ph-card"><div class="ph-lbl">Quiz loading...</div><div class="ph-q">Please wait a moment.</div></div>';
+    return;
+  }
   const qdata = act.qs[qIdx];
   phoneLocalTimer = act.timerLeft !== undefined ? act.timerLeft : act.timer;
   const tot = act.timer;
@@ -797,15 +848,31 @@ function renderSlide() {
 }
 
 function pushActivity(slide) {
-  const sessLabel = SESSIONS[curSess][0].type === 'section'
-    ? (SESSIONS[curSess][0].label || 'S' + curSess) + ' ' + SESSIONS[curSess][0].title
+  const sess = SESSIONS[curSess];
+  const sessLabel = sess[0].type === 'section'
+    ? sess[0].title + ' — ' + sess[0].sub
     : 'Session ' + curSess;
   const payload = {
-    id: slide.id, type: slide.actType, q: slide.q, badge: slide.badge,
-    sessLabel: sessLabel, timer: slide.timer || 20
+    id: slide.id,
+    type: slide.actType,
+    q: slide.q,
+    badge: slide.badge || '',
+    sessLabel: sessLabel,
+    timer: slide.timer || 20,
+    sessIdx: curSess,
+    actIdx: curSlide
   };
   if (slide.actType === 'poll') payload.opts = slide.opts;
-  if (slide.actType === 'quiz') { payload.qs = slide.qs; payload.qIdx = projQuizState[slide.id]?.qIdx || 0; payload.timerLeft = slide.timer || 20; }
+  if (slide.actType === 'quiz') {
+    const qIdx = projQuizState[slide.id] ? projQuizState[slide.id].qIdx : 0;
+    payload.qIdx = qIdx;
+    payload.timerLeft = slide.timer || 20;
+    payload.totalQs = slide.qs.length;
+    // Send current question data so phone can render it
+    const qdata = slide.qs[qIdx];
+    payload.currentQ = qdata.q;
+    payload.currentOpts = qdata.opts;
+  }
   if (slide.actType === 'rating') payload.aspects = slide.aspects;
   db.ref('activeActivity').set(payload);
   db.ref('quizReveal').remove();
@@ -934,26 +1001,30 @@ function projNextQuestion(slide) {
   const state = projQuizState[slide.id];
   state.qIdx++;
   if (state.qIdx >= slide.qs.length) {
-    // quiz done
     const nb = document.getElementById('proj-qnext-btn');
-    if (nb) nb.textContent = '✓ Quiz Complete — go to Next Slide';
+    if (nb) { nb.textContent = '✓ Quiz Complete — go to Next Slide'; nb.onclick = nextSlide; }
+    db.ref('activeActivity').update({ type: 'quizdone' });
     return;
   }
-  // re-render quiz section
   const qdata = slide.qs[state.qIdx];
   const qtxt = document.getElementById('proj-qtxt');
   const qopts = document.getElementById('proj-qopts');
   const qprog = document.getElementById('proj-qprog');
   if (qtxt) qtxt.textContent = qdata.q;
   if (qprog) qprog.textContent = 'Question ' + (state.qIdx+1) + ' of ' + slide.qs.length;
-  if (qopts) qopts.innerHTML = qdata.opts.map((o, i) => `<div class="quiz-proj-opt" id="qpo${i}">${o}</div>`).join('');
+  if (qopts) qopts.innerHTML = qdata.opts.map((o, i) => '<div class="quiz-proj-opt" id="qpo'+i+'">'+o+'</div>').join('');
   db.ref('quizReveal').remove();
   db.ref('actAnswers/' + slide.id).remove();
-  // Update active activity qIdx
-  db.ref('activeActivity/qIdx').set(state.qIdx);
-  db.ref('activeActivity/timerLeft').set(slide.timer || 20);
+  // Push full updated question to phones
+  db.ref('activeActivity').update({
+    qIdx: state.qIdx,
+    timerLeft: slide.timer || 20,
+    currentQ: qdata.q,
+    currentOpts: qdata.opts,
+    totalQs: slide.qs.length
+  });
   const revBtn = document.getElementById('proj-rev-btn');
-  if (revBtn) revBtn.style.display = 'block';
+  if (revBtn) { revBtn.style.display = 'block'; revBtn.onclick = function(){ projRevealAnswer(slide, state.qIdx); }; }
   const nextBtn = document.getElementById('proj-qnext-btn');
   if (nextBtn) nextBtn.style.display = 'none';
   startProjQuiz(slide);
@@ -992,7 +1063,7 @@ function buildSlideHTML(slide) {
       else if (b.t === 'stats') body += `<div class="stats">${b.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l.replace(/\n/g,'<br>')}</div></div>`).join('')}</div>`;
       else if (b.t === 'steps') body += `<div class="steps">${b.steps.map(s=>`<div class="step"><div class="step-n">${s.n}</div><div class="step-body"><h4>${s.title}</h4><p>${s.body}</p></div></div>`).join('')}</div>`;
     }
-    return `<div class="slide slide-content"><h2>${slide.h}</h2>${body}</div>`;
+    return `<div class="slide slide-content"><h2>${slide.h}</h2><div style="flex:1;display:flex;flex-direction:column;min-height:0;gap:10px">${body}</div></div>`;
   }
   if (slide.type === 'activity') {
     return buildActivityHTML(slide);
@@ -1091,16 +1162,22 @@ function loadLeaderboard() {
 // ROLE PLAY TIMER
 // ══════════════════════════════════════════════════════════
 function rpStart(total) {
-  let left = parseInt(document.getElementById('rp-timer').textContent.split(':').join('')) || total;
-  // parse mm:ss
-  const parts = document.getElementById('rp-timer').textContent.split(':');
-  left = parseInt(parts[0]) * 60 + parseInt(parts[1]);
   clearInterval(rpInterval);
+  const el = document.getElementById('rp-timer');
+  if (!el) return;
+  // Parse current display or use total
+  const parts = el.textContent.split(':');
+  let left = parts.length === 2 ? parseInt(parts[0]) * 60 + parseInt(parts[1]) : total;
+  if (isNaN(left) || left <= 0) left = total;
+  el.style.color = 'var(--text)';
   rpInterval = setInterval(() => {
     left--;
-    const el = document.getElementById('rp-timer');
-    if (el) { el.textContent = Math.floor(left/60)+':'+String(left%60).padStart(2,'0'); if(left<=10) el.style.color='var(--red)'; }
-    if (left <= 0) clearInterval(rpInterval);
+    const e2 = document.getElementById('rp-timer');
+    if (e2) {
+      e2.textContent = Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+      if (left <= 10) e2.style.color = 'var(--red)';
+      if (left <= 0) { clearInterval(rpInterval); }
+    } else { clearInterval(rpInterval); }
   }, 1000);
 }
 function rpPause() { clearInterval(rpInterval); }
