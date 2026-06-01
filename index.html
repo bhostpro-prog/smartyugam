@@ -505,7 +505,6 @@ function listenDB(ref, cb) { ref.on('value', cb); activeListeners.push(() => ref
 // ══════════════════════════════════════════════════════════
 function startMode(mode) {
   MODE = mode;
-  document.getElementById('mode-select').style.display = 'none';
   if (mode === 'projector') {
     document.getElementById('projector').style.display = 'flex';
     renderSlide();
